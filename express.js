@@ -1,14 +1,22 @@
-//express ëª¨ë“ˆì„ ë¶ˆëŸ¬ì˜¤ê¸°
-var express = require('express');
-
+//express ¸ğµâÀ» ºÒ·¯¿À±â
+var express = require("express");
 var app = express();
+var router = express.Router();
+var path = __dirname + '/view/';
 
-// ë¼ìš°íŒ… ì„¤ì • ë° Clientì— ë³´ë‚¼ ë°ì´í„° ì„¤ì •
-app.get('/', function(req, res){
-	res.sendfile('Login.html');
+router.use(function (req,res,next) {
+  console.log("/" + req.method);
+  next();
 });
 
-// í¬íŠ¸ ì„¤ì • ë° ì‹œì‘ ë™ì‘ ì„¤ì •
+// ¶ó¿ìÆÃ ¼³Á¤ ¹× Client¿¡ º¸³¾ µ¥ÀÌÅÍ ¼³Á¤
+router.get("/",function(req,res){
+  res.sendFile(path + "Login.html");
+});
+
+app.use("/",router);
+
+// Æ÷Æ® ¼³Á¤ ¹× ½ÃÀÛ µ¿ÀÛ ¼³Á¤
 app.listen(6180, function(){
-	console.log('Server Start');
+	console.log('Server Start / port : 6180');
 });
