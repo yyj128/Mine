@@ -1,0 +1,173 @@
+<?
+include "./dbconn.inc";
+
+$table_name = "board_free";
+
+if(!strcmp($mode, "read")) {   
+  $query = "update $table_name set hit = hit + 1 where uno = $read_uno";
+  $result = mysql_query($query, $dbconn);
+
+  $query = "select name, email, homepage, subject, content, client_ip, html_tag
+            from $table_name where uno = $read_uno";	
+
+  $result = mysql_query($query, $dbconn);
+
+  $name = mysql_result($result, 0, 0);
+  $email = mysql_result($result, 0, 1);
+  $homepage = mysql_result($result, 0, 2);	
+  $subject = mysql_result($result, 0, 3);
+  $content = mysql_result($result, 0, 4);
+  $client_ip = mysql_result($result, 0, 5);
+  $html_tag = mysql_result($result, 0, 6);
+
+  $subject = htmlspecialchars($subject);	
+  $subject = stripslashes($subject);	
+
+  if(strcmp($html_tag, "on"))
+    $content = htmlspecialchars($content);
+
+  $content = stripslashes($content);	
+  $content = nl2br($content);	
+  ?>
+  <table width = "750" border = "1" cellspacing = "0" cellpadding = "0">      
+    <tr>	
+      <td width = "100">
+        글 쓴이
+      </td>
+      <td width = "650"> 
+        <?
+        if($email)
+          echo("<a href = \"mailto:$email\">$name</a>");
+        else
+          echo("$name");
+        ?>
+      </td>
+    </tr> 
+    <tr>	
+      <td>
+        홈페이지
+      </td>
+      <td> 
+        <?
+        if($homepage)
+          echo("<a href = \"$homepage\" target = \"_blank\">$homepage</a>");
+        else
+          echo("홈페이지 없음");
+        ?>
+      </td>
+    </tr> 
+    <tr>	
+      <td width = "100">
+        글 제목
+      </td>
+      <td width = "650"> 
+        <?echo("$subject");?>
+      </td>
+    </tr> 
+    <tr>	
+      <td width = "100">
+        글 내용
+      </td>
+      <td width = "650"> 
+        <?echo("$content");?>
+        <br><br>
+        <?echo("IP Address : $client_ip");?>	
+      </td>
+    </tr> 
+  </table>
+  <br>
+  <table width = "750" border = "0" cellspacing = "0" cellpadding = "0">
+    <tr>
+      <td width = "375">
+        <a href = "./list.html">[글 목록]</a>
+        <a href = "./write.html?mode=form">[글 쓰기]</a>
+      </td>	
+      <td width = "375" align = "right">
+        <a href = "./modify.html?mode=form&modify_uno=<?echo("$read_uno");?>">[글 수정]</a>
+        <a href = "./delete.html?mode=form&delete_uno=<?echo("$read_uno");?>">[글 삭제]</a>
+      </td>
+    </tr>
+  </table>
+  <br>	
+<?
+}	
+?>
+<table width = "750" border = "1" cellspacing = "0" cellpadding = "0">
+  <tr>
+    <td width = "50" align = "center">
+      번호
+    </td>
+    <td width = "420" align = "center">
+      글 제목
+    </td>
+    <td width = "100" align = "center">
+      글 쓴이
+    </td>
+    <td width = "100" align = "center">
+      등록 일자
+  </tr>	
+<?
+  $query = "select uno, gno, reply_depth, name, email, subject, register_date, hit
+            from $table_name order by gno desc, reply_depth asc";
+
+  $result = mysql_query($query, $dbconn);
+  $total_record = mysql_num_rows($result);	
+
+  $article_no = $total_record;
+
+  for($i = 0; $i < $total_record; $i++) {
+    $uno = mysql_result($result, $i, 0);
+    $gno = mysql_result($result, $i, 1);
+    $reply_depth = mysql_result($result, $i, 2);	
+    $name = mysql_result($result, $i, 3);
+    $email = mysql_result($result, $i, 4);
+    $subject = mysql_result($result, $i, 5);
+    $register_date = mysql_result($result, $i, 6);
+    $hit = mysql_result($result, $i, 7);
+
+    $subject = htmlspecialchars($subject);	
+    $subject = stripslashes($subject);	
+
+    $register_date = date("Y-m-d", $register_date);	
+    ?>	
+    <tr>
+      <td align = "center">
+        <?echo("$article_no");?>
+      </td>
+      <td>
+        <a href = "./list.html?mode=read&read_uno=<?echo("$uno");?>"><?echo("$subject");?></a>
+      </td>
+      <td align = "center">
+        <?echo("$name");?>
+      </td>
+      <td align = "center">
+        <?echo("$register_date");?>
+      </td>
+      <td align = "center">
+        <?echo("$hit");?>
+      </td>
+    </tr>	
+    <?	
+    $article_no--;
+  }	
+
+  if(!$total_record) {
+  ?>
+    <tr>
+      <td align = "center" colspan = "5">
+        등록된 글이 없습니다.
+      </td>
+    </tr>	
+  <?
+  }
+  ?>	
+</table>
+<br>
+<table width = "750" border = "0" cellspacing = "0" cellpadding = "0">
+  <tr>
+    <td align = "right">
+      <a href = "./list.html">[글 목록]</a>
+      <a href = "./write.html?mode=form">[글 쓰기]</a>
+    </td>
+  </tr>
+</table>
