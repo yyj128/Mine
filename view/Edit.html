@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+	<title>Mine</title>
+		
+	<!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 부가적인 테마 -->
+	<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+	<div class = "row" style="height=60px; background-color:#C90000">
+		<!-- 로고 -->
+		<div class="col-md-10 col-sm-6" style="padding: 10px 0px 10px 40px">
+			<img src="../public/image/logo_w.png" width="150px" height="50px">
+		</div>
+		<!-- 사용자 정보(프로필 사진, 이름) -->
+		<div class="col-md-2" style="padding: 15px 0px 15px 0px">	
+			<img class="img-circle" width="40px" height="40px"></img>
+			<span style="color:white; font:bold;">&nbsp;&nbsp;&nbsp;name님 환영합니다.</span>
+		</div>
+	</div>
+	
+	<div class="container" style="padding: 80px 0px 0px 80px">
+		<p><b>카테고리 관리 및 설정</b></p>
+		
+		<!-- 카테고리 목록 -->
+		<div class="col-md-2" style="padding: 10px 0px 0px 0px">
+			<select multiple class="form-control" size = "20px">
+				<option></option>
+			</select>
+		</div>
+		<!-- 카테고리 이름 -->
+		<div class="col-md-2" style="padding: 40px 0px 0px 0px">
+			<p align = "right">카테고리명</p>
+		</div>
+		<div class="col-md-3" style="padding: 40px 0px 0px 20px">
+			<input type="text" class="form-control">
+			<div class = "buttons" style="padding: 20px 0px 0px 10x">
+				<button type="button" class="btn btn-primary">추가</button>
+				<button type="button" class="btn btn-primary">수정</button>
+				<button type="button" class="btn btn-primary">삭제</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
